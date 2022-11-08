@@ -83,7 +83,8 @@
             class="heading-single-page">Nossa missão é fazer a indústria vender mais e melhor.</h1>
           <p data-w-id="f2e149d6-bcfb-5e85-c4fb-b015a89f4a10"
             style="-webkit-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
-            class="paragraph-large">A Frezze é uma solução completa para a indústria que quer vender seus produtos diretamente para os pontos de venda, seja ele o food service, pequeno comércio ou varejo.</p>
+            class="paragraph-large">A Frezze é uma solução completa para a indústria que quer vender seus produtos
+            diretamente para os pontos de venda, seja ele o food service, pequeno comércio ou varejo.</p>
         </div>
       </div>
     </div>
@@ -109,7 +110,8 @@
                 <div class="number-company-info">2019</div>
                 <div class="accent-info">Fundação</div>
               </div>
-              <p>A Frezze nasce em 2019 com o objetivo de levar o produto da indústria diretamente para o ponto de venda.</p>
+              <p>A Frezze nasce em 2019 com o objetivo de levar o produto da indústria diretamente para o ponto de
+                venda.</p>
             </div>
             <div data-w-id="ba6c09f9-4086-941a-4584-ae8e48fc4a03"
               style="-webkit-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-moz-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);-ms-transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);transform:translate3d(0, 20px, 0) scale3d(1, 1, 1) rotateX(0) rotateY(0) rotateZ(0) skew(0, 0);opacity:0"
@@ -188,12 +190,14 @@
               <h2 data-w-id="c35fd57a-deaa-e65d-c622-e912986d6864" class="heading">Quer saber as novidades da Frezze?
               </h2>
               <p data-w-id="c35fd57a-deaa-e65d-c622-e912986d6866" class="paragraph-banner">Nosso time trabalha para
-                trazer novidades para a indústria e o setor. Fique por dentro das nossas novidades se cadastrando em nossa newsletter.</p>
+                trazer novidades para a indústria e o setor. Fique por dentro das nossas novidades se cadastrando em
+                nossa newsletter.</p>
               <div data-w-id="c35fd57a-deaa-e65d-c622-e912986d6868" class="form-block-banner w-form">
-                <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-banner"><input
-                    type="email" class="text-field w-input" maxlength="256" name="Email" data-name="Email"
-                    placeholder="Insira seu e-mail" id="Email" required=""><input type="submit" value="Cadastrar-se"
-                    data-wait="Por-favor, aguarde..." class="button w-button"></form>
+                <form id="email-form" name="email-form" data-name="Email Form" method="get" class="form-banner">
+                  <input type="email" class="text-field w-input" maxlength="256" name="Email" data-name="Email"
+                    placeholder="Insira seu e-mail" id="Email" required="">
+                  <input type="submit" value="Cadastrar-se" id='signup-btn' class="button w-button">
+                </form>
                 <div class="success-message w-form-done">
                   <div class="success-text">Obrigado! Seu cadastro foi concluído!</div>
                 </div>
@@ -227,7 +231,8 @@
           </div>
           <div data-w-id="2b89f38d-417d-b761-09ed-84893bf9cd44" class="block-footer">
             <h6 class="heading-footer">Redes Sociais</h6>
-            <a href="https://www.linkedin.com/company/frezze-logistica/" target="_blank" class="link-footer">LinkedIn</a>
+            <a href="https://www.linkedin.com/company/frezze-logistica/" target="_blank"
+              class="link-footer">LinkedIn</a>
           </div>
 
         </div>
@@ -243,6 +248,36 @@
   </script>
   <script src="js/webflow.js" type="text/javascript"></script>
   <!-- [if lte IE 9]><script src="https://cdnjs.cloudflare.com/ajax/libs/placeholders/3.0.2/placeholders.min.js"></script><![endif] -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+  <script>
+    const btn = document.getElementById('signup-btn');
+
+    document.getElementById('email-form')
+      .addEventListener('submit', function (event) {
+        event.preventDefault();
+        btn.value = 'Aguarde...';
+        axios.get(
+          'https://api.jsonstorage.net/v1/json/0af150bc-cb29-4fa1-8b54-f8f403bfca03/ebf9708f-81a3-4e94-81ab-541cf53d882f'
+        ).then((response) => {
+          let email = $('#Email').val()
+          let emails = response.data.emails
+          emails.push(email)
+          axios.put(
+            'https://api.jsonstorage.net/v1/json/0af150bc-cb29-4fa1-8b54-f8f403bfca03/ebf9708f-81a3-4e94-81ab-541cf53d882f?apiKey=f005a25b-241a-4db1-8000-a28e0b624b1d', {
+              emails: emails
+            }
+          ).then((response) => {
+            btn.value = 'Cadastrar-se';
+            $('.w-form-done').css('display', 'block')
+          }).catch((error) => {
+            btn.value = 'Cadastrar-se';
+            alert(JSON.stringify(err));
+            $('.w-form-fail').css('display', 'block')
+          })
+        })
+      })
+  </script>
 </body>
 
 </html>
